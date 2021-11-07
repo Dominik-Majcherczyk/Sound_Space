@@ -1,15 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, AppBar, Typography } from "@material-ui/core";
 import Songs from "./components/Songs/Songs";
 import AddSongForm from "./components/Form/AddSongForm";
 import { getSongs } from "./actions/songs";
 import { useDispatch } from "react-redux";
 function App() {
+   const [currentId, setCurrentId] = useState(null)
    const dispatch = useDispatch();
 
    useEffect(() => {
       dispatch(getSongs());
-   }, [dispatch]);
+   }, [currentId, dispatch]);
    return (
       <Container maxwidth="lg">
          <AppBar position="static" color="inherit">
@@ -17,8 +18,8 @@ function App() {
                Songs
             </Typography>
          </AppBar>
-         <Songs />
-         <AddSongForm />
+         <Songs setCurrentId={setCurrentId}/>
+         <AddSongForm currentId={currentId} setCurrentId={setCurrentId}/>
       </Container>
    );
 }

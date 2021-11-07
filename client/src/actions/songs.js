@@ -12,9 +12,27 @@ export const getSongs = () => async (dispatch) => {
 export const addSong = (song) => async (dispatch) => {
    try {
       const { data } = await api.addSong(song);
-      console.log("git gut")
       dispatch({ type: "CREATE", payload: data });
    } catch (error) {
       console.log(error.message);
    }
 };
+
+export const updateSong = (id, song) => async (dispatch) => {
+   try {
+     const {data} = await api.updateSong(id, song);
+      dispatch({ type: "UPDATE", payload: data });
+   } catch (error) {
+      console.log(error.message);
+   }
+};
+
+export const deleteSong = (id) => async (dispatch) => {
+   try {
+     await api.deleteSong(id);
+      dispatch({ type: "DELETE", payload: id });
+   } catch (error) {
+      console.log(error.message);
+   }
+};
+
