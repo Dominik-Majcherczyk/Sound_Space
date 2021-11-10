@@ -36,3 +36,13 @@ export const deleteSong = (id) => async (dispatch) => {
    }
 };
 
+
+export const likeSong = (id) => async (dispatch) => {
+   try {
+      const {data} = await api.likeSong(id);
+       dispatch({ type: "UPDATE", payload: data });
+    } catch (error) {
+       console.log(error.message);
+    }
+};
+

@@ -66,7 +66,7 @@ export default function AddSongForm({ currentId, setCurrentId }) {
           name="tags"
           placeholder="tags"
           value={songData.tags}
-          onChange={(e) => setSongData({ ...songData, tags: e.target.value })}
+          onChange={(e) => setSongData({ ...songData, tags: e.target.value.split(", ") })}
         />
         <div>
           <FileBase

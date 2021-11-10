@@ -1,9 +1,9 @@
 import React from 'react'
 import moment from "moment"
 import { useDispatch } from 'react-redux'
-import {deleteSong} from '../../actions/songs'
+import {deleteSong, likeSong} from '../../actions/songs'
 export default function Song({song, setCurrentId}) {
-
+console.log(song.likeCount)
     const dispatch = useDispatch();
     return (
         <div>
@@ -11,7 +11,7 @@ export default function Song({song, setCurrentId}) {
             <h2>{moment(song.createdAt).fromNow()}</h2>
             <p>{song.tags.map((tag)=> `#${tag} `)}</p>
             <div className="flex gap-8">
-                <button onClick={()=>{}}>Like</button>
+                <button onClick={()=>dispatch(likeSong(song._id))}>Like {song.likeCount}</button>
                 <button onClick={()=>dispatch(deleteSong(song._id))}>Delete</button>
             </div>
             <div className="flex gap-8">

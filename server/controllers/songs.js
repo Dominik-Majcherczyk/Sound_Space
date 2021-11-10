@@ -46,3 +46,15 @@ export const deleteSong = async (req, res) => {
 
  res.json({message: 'Song deleted successfully'})
 };
+
+
+export const likeSong = async (req, res) => {
+  const { id} = req.params;
+  
+  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No song with that id');
+  
+ const song = await Song.findById(id)
+ const updatedSong = await Song.findByIdAndUpdate(id, {likeCount: song.likeCount + 1}, {new: true})
+
+ res.json(updatedSong)
+};
