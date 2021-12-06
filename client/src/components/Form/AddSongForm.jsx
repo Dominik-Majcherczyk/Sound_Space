@@ -96,18 +96,18 @@ if(!user?.result?.name){
         </button>
       </form> */}
 
-      <div class="mx-auto mt-8 flex flex-col max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
-        <div class="self-center mb-2 text-xl font-light text-gray-800 sm:text-2xl dark:text-white">
+      <div className="mx-auto mt-8 flex flex-col max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
+        <div className="self-center mb-2 text-xl font-light text-gray-800 sm:text-2xl dark:text-white">
           {currentId ? "Edit your song" : "Add new fantastic song!"}
         </div>
 
-        <div class="p-6">
+        <div className="p-6">
           <form autoComplete="off" noValidate onSubmit={handleSubmit}>
-            <div class="flex flex-col mb-2">
-              <div class=" relative ">
+            <div className="flex flex-col mb-2">
+              <div className=" relative ">
                 <input
                   type="text"
-                  class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   name="title"
                   placeholder="Title"
                   value={songData.title}
@@ -117,7 +117,7 @@ if(!user?.result?.name){
                 />
               </div>
             </div>
-            <div class="flex gap-4 mb-2">
+            <div className="flex gap-4 mb-2">
               {/* <div class=" relative ">
                 <input
                   type="text"
@@ -130,10 +130,10 @@ if(!user?.result?.name){
                   }
                 />
               </div> */}
-              <div class=" relative ">
+              <div className=" relative ">
                 <input
                   type="text"
-                  class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   name="tags"
                   placeholder="tags (coma separated)"
                   value={songData.tags}
@@ -146,7 +146,7 @@ if(!user?.result?.name){
                 />
               </div>
             </div>
-            <div class="flex flex-col mb-2">
+            <div className="flex flex-col mb-2">
               <div >
                 <FileBase
                 
@@ -159,12 +159,12 @@ if(!user?.result?.name){
               </div>
             </div>
 
-            <label class="text-gray-700" for="animals">
+            <label className="text-gray-700" htmlFor="playlists">
               Choose a existing playlist:
               <select
-                id="animals"
-                class="block w-52 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                name="animals"
+                id="playlists"
+                className="block w-52 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                name="playlists"
               >
                 <option value="none">none</option>
                 <option value="1">playlist #1</option>
@@ -173,52 +173,52 @@ if(!user?.result?.name){
               </select>
             </label>
 
-            <div class="flex w-full my-4 gap-8">
+            <div className="flex w-full my-4 gap-8">
               <button
                 type="submit"
-                class="py-2 px-4  bg-green-500 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-green-200  text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
+                className="py-2 px-4  bg-green-500 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-green-200  text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
               >
                 {currentId ? "Edit" : "Add!"}
               </button>
               <button
                 type="reset"
                 onClick={(e) => clear(e)}
-                class="py-2 px-4  bg-red-600 hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  opacity-70  rounded-lg "
+                className="py-2 px-4  bg-red-600 hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  opacity-70  rounded-lg "
               >
                 Clear / Cancel
               </button>
             </div>
           </form>
-          <div class="flex items-center justify-center mt-6">
+          <div className="flex items-center justify-center mt-6">
             <div>
-              <label class="flex items-center space-x-3 mb-3">
+              <label className="flex items-center space-x-3 mb-3">
                 <input
                   type="checkbox"
                   name="premium"
-                  class="form-tick appearance-none bg-white bg-check h-6 w-6 border border-gray-300 rounded-md checked:bg-yellow-500 checked:border-transparent focus:outline-none"
+                  className="form-tick appearance-none bg-white bg-check h-6 w-6 border border-gray-300 rounded-md checked:bg-yellow-500 checked:border-transparent focus:outline-none"
                 />
-                <span class="text-gray-700 dark:text-white font-normal">
+                <span className="text-gray-700 dark:text-white font-normal">
                   Only for subscribing members (⚜️)
                 </span>
               </label>
-              <label class="flex items-center space-x-3 mb-3">
+              <label className="flex items-center space-x-3 mb-3">
                 <input
                   type="checkbox"
                   name="checked-demo"
-                  class="form-tick appearance-none bg-white bg-check h-6 w-6 border border-gray-300 rounded-md checked:bg-purple-500 checked:border-transparent focus:outline-none"
+                  className="form-tick appearance-none bg-white bg-check h-6 w-6 border border-gray-300 rounded-md checked:bg-purple-500 checked:border-transparent focus:outline-none"
                 />
-                <span class="text-gray-700 dark:text-white font-normal">
+                <span className="text-gray-700 dark:text-white font-normal">
                   Purple
                 </span>
               </label>
 
-              <label class="flex items-center space-x-3 mb-3">
+              <label className="flex items-center space-x-3 mb-3">
                 <input
                   type="checkbox"
                   name="checked-demo"
-                  class="form-tick appearance-none bg-white bg-check h-6 w-6 border border-gray-300 rounded-md checked:bg-indigo-500 checked:border-transparent focus:outline-none"
+                  className="form-tick appearance-none bg-white bg-check h-6 w-6 border border-gray-300 rounded-md checked:bg-indigo-500 checked:border-transparent focus:outline-none"
                 />
-                <span class="text-gray-700 dark:text-white font-normal">
+                <span className="text-gray-700 dark:text-white font-normal">
                   Indigo
                 </span>
               </label>

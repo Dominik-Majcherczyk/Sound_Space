@@ -3,10 +3,8 @@ import moment from "moment";
 import { useDispatch } from "react-redux";
 import { deleteSong, likeSong } from "../../actions/songs";
 export default function Song({ song, setCurrentId, uniqueKey }) {
-  console.log(song.likeCount);
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem('profile'));
-console.log(user)
   // const Likes = () => {
   //   if (song.likes.length > 0) {
   //     return song.likes.find((like) => like === (user?.result?.googleId || user?.result?._id))
@@ -16,8 +14,6 @@ console.log(user)
   //         <p>&nbsp;{post.likes.length} {post.likes.length === 1 ? 'Like' : 'Likes'}</>
   //       );
   //   }
-  console.log( song)
-console.log("cffffffffffffff" + song.likeCount)
 
 
   return (
@@ -29,7 +25,7 @@ console.log("cffffffffffffff" + song.likeCount)
           <img
             alt="blog photo"
             src={song.selectedFile}
-            class="max-h-40 w-full object-cover"
+            className="max-h-40 w-full object-cover"
           />
           <div className="bg-white dark:bg-gray-800 w-full p-4">
             <p className="text-indigo-500 text-md font-medium">
@@ -80,7 +76,7 @@ console.log("cffffffffffffff" + song.likeCount)
                       <button
                       type="button"
                       onClick={() => dispatch(deleteSong(song._id))}
-                      class="py-2 px-4  bg-red-600 hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  opacity-70  rounded-lg "
+                      className="py-2 px-4  bg-red-600 hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  opacity-70  rounded-lg "
                     >
                       Delete
                     </button>
@@ -94,7 +90,7 @@ console.log("cffffffffffffff" + song.likeCount)
               <button
               type="button"
               onClick={() => setCurrentId(song._id)}
-              class="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
+              className="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
             >
               Edit
             </button>
@@ -103,7 +99,7 @@ console.log("cffffffffffffff" + song.likeCount)
 
               <button
                 type="button"
-                class="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
+                className="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
               >
                 details
               </button>
