@@ -1,10 +1,15 @@
 import express from "express";
 import { getSongs, addSong, updateSong, deleteSong, likeSong } from "./../controllers/songs.js";
+
+import auth from '../middleware/auth.js'
+
 const router = express.Router();
 
 router.get("/", getSongs);
-router.post("/", addSong);
-router.patch("/:id", updateSong);
-router.patch("/:id/likeSong", likeSong);
-router.delete("/:id", deleteSong);
+router.post("/", auth, addSong);
+router.patch("/:id", auth, updateSong);
+router.patch("/:id/likeSong",auth, likeSong);
+router.delete("/:id",auth, deleteSong);
+
+
 export default router;

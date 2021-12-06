@@ -4,11 +4,11 @@ const songSchema = mongoose.Schema({
    title: String,
    author: String,
    tags: [String],
-   selectedImage: String,
+   selectedFile: String,
    source: String,
-   likeCount: {
-      type: Number,
-      default: 0,
+   likes: {
+      type: [String],
+      default: [],
    },
    createdAt: {
       type: Date,

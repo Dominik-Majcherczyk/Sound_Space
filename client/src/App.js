@@ -1,27 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { Container, AppBar, Typography } from "@material-ui/core";
-import Songs from "./components/Songs/Songs";
-import AddSongForm from "./components/Form/AddSongForm";
-import { getSongs } from "./actions/songs";
-import { useDispatch } from "react-redux";
+import React from "react";
+import { BrowserRouter, Routes , Route } from "react-router-dom";
+import Navbar from "./components/Navbar/Navbar";
+import Auth from "./components/Auth/Auth";
+import Home from "./components/Home/Home";
 function App() {
-   const [currentId, setCurrentId] = useState(null)
-   const dispatch = useDispatch();
-
-   useEffect(() => {
-      dispatch(getSongs());
-   }, [currentId, dispatch]);
-   return (
-      <Container maxwidth="lg">
-         <AppBar position="static" color="inherit">
-            <Typography variant="h2" align="center">
-               Songs
-            </Typography>
-         </AppBar>
-         <Songs setCurrentId={setCurrentId}/>
-         <AddSongForm currentId={currentId} setCurrentId={setCurrentId}/>
-      </Container>
-   );
+  return (
+    <BrowserRouter>
+      <div  className="container mx-auto">
+        <Navbar />
+        <Routes>
+            <Route exact path="/" element={<Home/>} />
+            <Route exact path="/auth" element={<Auth/>} />
+        </Routes>
+      </div>
+    </BrowserRouter>
+  );
 }
 
 export default App;

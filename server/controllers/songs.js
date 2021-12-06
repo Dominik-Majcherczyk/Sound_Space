@@ -15,7 +15,7 @@ export const getSongs = async (req, res) => {
 export const addSong = async (req, res) => {
   const song = req.body;
 
-  const newSong = new Song(song);
+  const newSong = new Song({...song, creator: req.userId, createdAt: new Date().toISOString()});
 
   try {
     await newSong.save();
@@ -50,11 +50,22 @@ export const deleteSong = async (req, res) => {
 
 export const likeSong = async (req, res) => {
   const { id} = req.params;
+
+ if(!req.userId) return res.json({message: "Unauthenticated"})
   
   if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No song with that id');
   
  const song = await Song.findById(id)
- const updatedSong = await Song.findByIdAndUpdate(id, {likeCount: song.likeCount + 1}, {new: true})
 
- res.json(updatedSong)
+  const index = song.likes.findIndex((id) => id === String(req.userId))
+
+  if(index === -1) {
+    song.likes.push(req.userId)
+  } else {
+    song.likes = song.likes.filter((id)=> id !== String(req.userId))
+  }
+
+ const updatedSong = await Song.findByIdAndUpdate(id, song, {new: true})
+
+ res.status(200).json(updatedSong)
 };
