@@ -6,9 +6,9 @@ export default function Songs({setCurrentId}) {
   return !songs.length ? (
     <div>loading</div>
   ) : (
-    <div className="grid grid-cols-12 gap-8 mt-16">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-16">
       {songs.map((song) => (
-        <div className="col-span-4" key={song._id}>
+        <div className="" key={song._id}>
           <Song uniqueKey={song._id} song={song} setCurrentId={setCurrentId}/>
         </div>
       ))}

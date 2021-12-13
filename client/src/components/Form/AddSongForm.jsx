@@ -2,19 +2,27 @@ import React, { useState, useEffect } from "react";
 import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
 import { addSong, updateSong } from "../../actions/songs";
+import { Upload } from "@aws-sdk/lib-storage";
+import { S3Client, S3 } from "@aws-sdk/client-s3";
 export default function AddSongForm({ currentId, setCurrentId }) {
   const [songData, setSongData] = useState({
     title: "",
     tags: "",
     selectedFile: "",
+    songURL: "",
   });
+const bucketUrl = "https://sound-space10122021.s3.eu-central-1.amazonaws.com/"
+
+  const [soundFile, setSoundFile] = useState();
+
   const song = useSelector((state) =>
     currentId ? state.songs.find((song) => song._id === currentId) : null
   );
   const dispatch = useDispatch();
 
-const user = JSON.parse(localStorage.getItem('profile'))
 
+
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   useEffect(() => {
     if (song) setSongData(song);
@@ -22,15 +30,48 @@ const user = JSON.parse(localStorage.getItem('profile'))
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(songData);
     if (currentId) {
-      dispatch(updateSong(currentId, {...songData, author: user?.result?.name}));
+      dispatch(
+        updateSong(currentId, { ...songData, author: user?.result?.name })
+      );
     } else {
-      dispatch(addSong({...songData, author: user?.result?.name} ));
-      
-   
+      const target = {
+        Bucket: "sound-space10122021",
+        Key: soundFile.name,
+        Body: soundFile,
+      };
+
+      const creds = {
+        accessKeyId: "AKIAYMK6CF6HX2QEOUBY",
+        secretAccessKey: "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",
+      };
+      try {
+        const parallelUploads3 = new Upload({
+          client: new S3Client({ region: "eu-central-1", credentials: creds }),
+          leavePartsOnError: false,
+          params: target,
+        });
+
+        parallelUploads3.on("httpUploadProgress", (progress) => {
+          console.log(progress);
+        });
+
+        parallelUploads3.done();
+        
+        
+      } catch (error) {
+        console.log(error);
+      }
+
+      console.log(songData)
+      dispatch(addSong({ ...songData, author: user?.result?.name, songURL: `${bucketUrl}${soundFile.name}` }));
     }
     clear();
+  };
+
+  const handleFile = (e) => {
+    setSoundFile(e.target.files[0]);
   };
 
   const clear = (e) => {
@@ -39,63 +80,21 @@ const user = JSON.parse(localStorage.getItem('profile'))
       title: "",
       tags: "",
       selectedImage: "",
+      songURL: "",
     });
+    setSoundFile(null);
   };
 
-
-if(!user?.result?.name){
-  return(
-    <div>
-      <h1>please Sign in to create songs and like others</h1>
-    </div>
-  )
-}
+  if (!user?.result?.name) {
+    return (
+      <div>
+        <h1>please Sign in to create songs and like others</h1>
+      </div>
+    );
+  }
 
   return (
     <div>
-      {/* <form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <h2>{currentId ? "Editing" : "add song"}</h2>
-        <input
-          type="text"
-          label="author"
-          name="author"
-          placeholder="author"
-          value={songData.author}
-          onChange={(e) => setSongData({ ...songData, author: e.target.value })}
-        />
-        <input
-          type="text"
-          label="title"
-          name="title"
-          placeholder="title"
-          value={songData.title}
-          onChange={(e) => setSongData({ ...songData, title: e.target.value })}
-        />
-        <input
-          type="text"
-          label="tags"
-          name="tags"
-          placeholder="tags"
-          value={songData.tags}
-          onChange={(e) =>
-            setSongData({ ...songData, tags: e.target.value.split(",") })
-          }
-        />
-        <div>
-          <FileBase
-            type="file"
-            multiple={false}
-            onDone={({ base64 }) =>
-              setSongData({ ...songData, selectedFile: base64 })
-            }
-          />
-        </div>
-        <button type="submit">submit</button>
-        <button type="reset" onClick={(e) => clear(e)}>
-          clear
-        </button>
-      </form> */}
-
       <div className="mx-auto mt-8 flex flex-col max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
         <div className="self-center mb-2 text-xl font-light text-gray-800 sm:text-2xl dark:text-white">
           {currentId ? "Edit your song" : "Add new fantastic song!"}
@@ -118,18 +117,6 @@ if(!user?.result?.name){
               </div>
             </div>
             <div className="flex gap-4 mb-2">
-              {/* <div class=" relative ">
-                <input
-                  type="text"
-                  class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                  name="author"
-                  placeholder="Your name"
-                  value={songData.author}
-                  onChange={(e) =>
-                    setSongData({ ...songData, author: e.target.value })
-                  }
-                />
-              </div> */}
               <div className=" relative ">
                 <input
                   type="text"
@@ -147,15 +134,21 @@ if(!user?.result?.name){
               </div>
             </div>
             <div className="flex flex-col mb-2">
-              <div >
+              <div>
                 <FileBase
-                
                   type="file"
                   multiple={false}
                   onDone={({ base64 }) =>
                     setSongData({ ...songData, selectedFile: base64 })
                   }
                 />
+              </div>
+            </div>
+
+            {/* upload mp3 */}
+            <div className="flex flex-col mb-2">
+              <div>
+                <input type="file" onChange={handleFile} />
               </div>
             </div>
 

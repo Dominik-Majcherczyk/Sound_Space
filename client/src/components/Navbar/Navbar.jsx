@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppBar} from "@material-ui/core";
-import { useNavigate, useLocation  } from "react-router-dom";
+import { useNavigate,  } from "react-router-dom";
 import logo from "../../images/soundspace-logo.png";
 import {ReactComponent as Svg1} from '../../svg/svg1.svg';
 import {ReactComponent as Svg2} from '../../svg/svg2.svg';
@@ -12,7 +12,6 @@ export default function Navbar() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
   const logout = () => {
     dispatch({ type: "LOGOUT" });
     navigate('/')
@@ -29,7 +28,7 @@ export default function Navbar() {
     }
 
     setUser(JSON.parse(localStorage.getItem("profile")));
-  }, [location]);
+  }, [navigate]);
   return (
     <AppBar position="static" color="inherit">
       {/* <Typography variant="h2" align="center">

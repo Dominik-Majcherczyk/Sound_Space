@@ -5,15 +5,6 @@ import { deleteSong, likeSong } from "../../actions/songs";
 export default function Song({ song, setCurrentId, uniqueKey }) {
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem('profile'));
-  // const Likes = () => {
-  //   if (song.likes.length > 0) {
-  //     return song.likes.find((like) => like === (user?.result?.googleId || user?.result?._id))
-  //       ? (
-  //         <p>&nbsp;{post.likes.length > 2 ? `You and ${post.likes.length - 1} others` : `${post.likes.length} like${post.likes.length > 1 ? 's' : ''}` }</p>
-  //       ) : (
-  //         <p>&nbsp;{post.likes.length} {post.likes.length === 1 ? 'Like' : 'Likes'}</>
-  //       );
-  //   }
 
 
   return (

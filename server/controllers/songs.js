@@ -1,12 +1,26 @@
 import mongoose from "mongoose";
 import Song from "./../models/songSchema.js";
+import { S3Client } from "@aws-sdk/client-s3";
+
+
 
 export const getSongs = async (req, res) => {
   try {
-    const songs = await Song.find();
-
-    console.log;
+    const songs = await Song.find()
     res.status(200).json(songs);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const getSongsBySearch = async (req, res) => {
+  const {searchQuery, tags} = req.query
+  try {
+    const title = new RegExp(searchQuery, 'i');
+
+    const songs = await Song.find({ $or: [ { title }, { tags: { $in: tags.split(',') } } ]});
+
+    res.json({ data: songs });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -14,7 +28,6 @@ export const getSongs = async (req, res) => {
 
 export const addSong = async (req, res) => {
   const song = req.body;
-
   const newSong = new Song({...song, creator: req.userId, createdAt: new Date().toISOString()});
 
   try {

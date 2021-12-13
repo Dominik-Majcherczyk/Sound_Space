@@ -6,6 +6,7 @@ const songSchema = mongoose.Schema({
    tags: [String],
    selectedFile: String,
    source: String,
+   songURL: String,
    likes: {
       type: [String],
       default: [],
