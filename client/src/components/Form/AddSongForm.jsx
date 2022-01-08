@@ -4,23 +4,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { addSong, updateSong } from "../../actions/songs";
 import { Upload } from "@aws-sdk/lib-storage";
 import { S3Client, S3 } from "@aws-sdk/client-s3";
+import { useNavigate} from "react-router-dom";
 export default function AddSongForm({ currentId, setCurrentId }) {
+  const navigate = useNavigate();
   const [songData, setSongData] = useState({
     title: "",
     tags: "",
     selectedFile: "",
     songURL: "",
+    description: "",
   });
-const bucketUrl = "https://sound-space10122021.s3.eu-central-1.amazonaws.com/"
+  const bucketUrl =
+    "https://sound-space10122021.s3.eu-central-1.amazonaws.com/";
 
   const [soundFile, setSoundFile] = useState();
 
   const song = useSelector((state) =>
-    currentId ? state.songs.find((song) => song._id === currentId) : null
+    currentId ? state.songs.songs.find((song) => song._id === currentId) : null
   );
   const dispatch = useDispatch();
-
-
 
   const user = JSON.parse(localStorage.getItem("profile"));
 
@@ -58,14 +60,17 @@ const bucketUrl = "https://sound-space10122021.s3.eu-central-1.amazonaws.com/"
         });
 
         parallelUploads3.done();
-        
-        
       } catch (error) {
         console.log(error);
       }
 
-      console.log(songData)
-      dispatch(addSong({ ...songData, author: user?.result?.name, songURL: `${bucketUrl}${soundFile.name}` }));
+      dispatch(
+        addSong({
+          ...songData,
+          author: user?.result?.name,
+          songURL: `${bucketUrl}${soundFile.name}`,
+        }, navigate)
+      );
     }
     clear();
   };
@@ -116,13 +121,13 @@ const bucketUrl = "https://sound-space10122021.s3.eu-central-1.amazonaws.com/"
                 />
               </div>
             </div>
-            <div className="flex gap-4 mb-2">
+            <div className="flex flex-col gap-4 mb-2">
               <div className=" relative ">
                 <input
                   type="text"
-                  className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  className=" rounded-lg border-transparent appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   name="tags"
-                  placeholder="tags (coma separated)"
+                  placeholder="Tags (coma separated) - tag1,tag2,tag3..."
                   value={songData.tags}
                   onChange={(e) =>
                     setSongData({
@@ -133,6 +138,29 @@ const bucketUrl = "https://sound-space10122021.s3.eu-central-1.amazonaws.com/"
                 />
               </div>
             </div>
+
+            <div className="flex gap-4 mb-2">
+              <div className=" relative ">
+                <label class="text-gray-700" for="name">
+                  <textarea
+                    class="flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    
+                    placeholder="Description"
+                    name="description"
+                    rows="5"
+                    cols="40"
+                    value={songData.description}
+                    onChange={(e) =>
+                      setSongData({
+                        ...songData,
+                        description: e.target.value,
+                      })
+                    }
+                  />
+                </label>
+              </div>
+            </div>
+
             <div className="flex flex-col mb-2">
               <div>
                 <FileBase
@@ -152,7 +180,7 @@ const bucketUrl = "https://sound-space10122021.s3.eu-central-1.amazonaws.com/"
               </div>
             </div>
 
-            <label className="text-gray-700" htmlFor="playlists">
+            {/* <label className="text-gray-700" htmlFor="playlists">
               Choose a existing playlist:
               <select
                 id="playlists"
@@ -164,7 +192,7 @@ const bucketUrl = "https://sound-space10122021.s3.eu-central-1.amazonaws.com/"
                 <option value="2">playlist #2</option>
                 <option value="3">playlist #3</option>
               </select>
-            </label>
+            </label> */}
 
             <div className="flex w-full my-4 gap-8">
               <button
@@ -184,7 +212,7 @@ const bucketUrl = "https://sound-space10122021.s3.eu-central-1.amazonaws.com/"
           </form>
           <div className="flex items-center justify-center mt-6">
             <div>
-              <label className="flex items-center space-x-3 mb-3">
+              {/* <label className="flex items-center space-x-3 mb-3">
                 <input
                   type="checkbox"
                   name="premium"
@@ -214,7 +242,7 @@ const bucketUrl = "https://sound-space10122021.s3.eu-central-1.amazonaws.com/"
                 <span className="text-gray-700 dark:text-white font-normal">
                   Indigo
                 </span>
-              </label>
+              </label> */}
             </div>
           </div>
         </div>

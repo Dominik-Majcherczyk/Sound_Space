@@ -2,11 +2,16 @@ import React from "react";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { deleteSong, likeSong } from "../../actions/songs";
+import { useNavigate} from "react-router-dom";
 export default function Song({ song, setCurrentId, uniqueKey }) {
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem('profile'));
 
+  const navigate = useNavigate();
 
+  const openSong = () =>{
+    navigate(`/songs/${song._id}`)
+  }
   return (
     <div key={uniqueKey}>
 
@@ -24,7 +29,9 @@ export default function Song({ song, setCurrentId, uniqueKey }) {
             </p>
             <p className="text-gray-800 dark:text-white text-xl font-medium mb-2">
               {song.title}
+              
             </p>
+            
             <p className="text-gray-400 dark:text-gray-300 font-light text-md">
               The fantastic song description or short story...
             </p>
@@ -41,19 +48,33 @@ export default function Song({ song, setCurrentId, uniqueKey }) {
                 <button
                   type="button"
                   disabled={!user?.result}
-                  onClick={() => dispatch(likeSong(song._id))}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    dispatch(likeSong(song._id))}}
                   className="w-full flex items-center border-l border-t border-b text-base font-medium rounded-l-md text-black bg-white hover:bg-gray-100 px-4 py-2"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    className="w-4 h-4 mr-2"
-                    fill="currentColor"
-                    viewBox="0 0 1792 1792"
-                  >
-                    <path d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
-                  </svg>
+                  {song.likes.find((like) => like === (user?.result?.googleId || user?.result?._id)) ? 
+                (    <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  className="w-4 h-4 mr-2"
+                  fill="gold"
+                  viewBox="0 0 1792 1792"
+                >
+                  <path d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
+                </svg> )  : (<svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  className="w-4 h-4 mr-2"
+                  fill="currentColor"
+                  viewBox="0 0 1792 1792"
+                >
+                  <path d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"></path>
+                </svg>)
+                }
+             
                   Star
                 </button>
                 <button
@@ -80,7 +101,12 @@ export default function Song({ song, setCurrentId, uniqueKey }) {
             {(user?.result?.googleId === song?.author || user?.result?.name=== song?.author) && (
               <button
               type="button"
-              onClick={() => setCurrentId(song._id)}
+              onClick={ (e) =>{
+                e.stopPropagation();
+                setCurrentId(song._id);
+              }
+                
+              }
               className="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
             >
               Edit
@@ -91,10 +117,13 @@ export default function Song({ song, setCurrentId, uniqueKey }) {
               <button
                 type="button"
                 className="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
+              onClick={openSong}
               >
                 details
               </button>
+              
             </div>
+            <p className="text-sm ">Created by: <span className="font-bold">{song.author}</span></p>
           </div>
         </a>
       </div>

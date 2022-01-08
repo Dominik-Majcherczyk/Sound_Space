@@ -4,6 +4,7 @@ import { S3Client } from "@aws-sdk/client-s3";
 
 
 
+
 export const getSongs = async (req, res) => {
   try {
     const songs = await Song.find()
@@ -12,6 +13,18 @@ export const getSongs = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+export const getSong = async (req, res) => { 
+  const { id } = req.params;
+
+  try {
+      const song = await Song.findById(id);
+      
+      res.status(200).json(song);
+  } catch (error) {
+      res.status(404).json({ message: error.message });
+  }
+}
 
 export const getSongsBySearch = async (req, res) => {
   const {searchQuery, tags} = req.query
@@ -32,6 +45,7 @@ export const addSong = async (req, res) => {
 
   try {
     await newSong.save();
+    console.log(newSong)
     res.status(201).json(newSong);
   } catch (error) {
     res.status(409).json({ message: error.message });
@@ -81,4 +95,20 @@ export const likeSong = async (req, res) => {
  const updatedSong = await Song.findByIdAndUpdate(id, song, {new: true})
 
  res.status(200).json(updatedSong)
+};
+
+
+
+export const commentSong = async (req, res) => {
+  const { id} = req.params;
+  const { value} = req.body;
+
+  const song = await Song.findById(id)
+
+  song.comments.push(value)
+
+  const updatedSong = await Song.findByIdAndUpdate(id, song, {new: true})
+
+  res.json(updatedSong)
+
 };

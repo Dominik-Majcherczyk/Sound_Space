@@ -2,21 +2,30 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppBar} from "@material-ui/core";
-import { useNavigate,  } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import logo from "../../images/soundspace-logo.png";
+import userProfile from "../../images/user-profile.png";
 import {ReactComponent as Svg1} from '../../svg/svg1.svg';
 import {ReactComponent as Svg2} from '../../svg/svg2.svg';
 import {ReactComponent as Svg3} from '../../svg/svg2.svg';
+
 import decode from "jwt-decode"
 export default function Navbar() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const [menuActive, setMenuActive] = useState(false)
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const toggleMenu = () =>{
+    setMenuActive(!menuActive)
+  }
   const logout = () => {
     dispatch({ type: "LOGOUT" });
     navigate('/')
     setUser(null);
+    toggleMenu()
   };
+  
   useEffect(() => {
     const token = user?.token;
 
@@ -66,25 +75,20 @@ export default function Navbar() {
                       className="text-gray-800 dark:text-white  hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-md font-medium"
                       href="/#"
                     >
-                      Gallery
+                      Add song
                     </a>
                     <a
                       className="text-gray-300  hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-md font-medium"
                       href="/#"
                     >
-                      Content
+                      Playlists
                     </a>
-                    <a
-                      className="text-gray-300  hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-md font-medium"
-                      href="/#"
-                    >
-                      Contact
-                    </a>
+                 
                   </div>
                 </div>
               </div>
 
-              <div className="relative flex items-center w-80 lg:w-64 h-full group">
+              {/* <div className="relative flex items-center w-80 lg:w-64 h-full group">
                 <div className="absolute z-50 flex items-center justify-center block w-auto h-10 p-3 pr-2 text-sm text-gray-500 uppercase cursor-pointer sm:hidden">
 
                    <Svg1/>
@@ -98,7 +102,7 @@ export default function Navbar() {
                 <div className="absolute right-0 hidden h-auto px-2 py-1 mr-2 text-xs text-gray-400 border border-gray-300 rounded-2xl md:block">
                   +
                 </div>
-              </div>
+              </div> */}
 
               <div className="block">
                 <div className="ml-4 flex items-center md:ml-6">
@@ -106,26 +110,39 @@ export default function Navbar() {
                     <div className="relative inline-block text-left">
                       <div>
                         {user ? (
-                          <div>
+                          <div className="flex flex-row  items-center justify-center">
                             <button
                               type="button"
-                              className="  flex items-center justify-center w-full rounded-md  px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-50 hover:bg-gray-50 dark:hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-gray-500"
+                              className="  flex items-center justify-center rounded-md  px-1 py-2 text-sm font-medium text-gray-700 dark:text-gray-50  "
                               id="options-menu"
+                              onClick={toggleMenu}
                             >
                               <div className="h-8 w-8">
-                                <img
-                                  className="rounded-full "
-                                  alt={user.result.name}
-                                  src={user.result.imageUrl}
-                                />
+                                {
+                                  user.result.imageUrl? (  
+                                  <img
+                                    className="rounded-full "
+                                    alt={user?.result.name}
+                                    src={user?.result.imageUrl}
+                                  />
+                                  ):(
+                                    <img
+                                    className="rounded-full "
+                                    alt={user?.result.name}
+                                    src={userProfile}
+                                  />
+                                    )
+                                }
+                              
                               </div>
                             </button>
+                            <p>{user?.result.name}</p>
                           </div>
                         ) : (
                           <Link to="/auth">Sign IN</Link>
                         )}
                       </div>
-
+                      {menuActive ? (
                       <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
                         <div
                           className="py-1 "
@@ -133,7 +150,7 @@ export default function Navbar() {
                           aria-orientation="vertical"
                           aria-labelledby="options-menu"
                         >
-                          <a
+                          {/* <a
                             href="#"
                             className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
                             role="menuitem"
@@ -150,7 +167,7 @@ export default function Navbar() {
                             <span className="flex flex-col">
                               <span>Account</span>
                             </span>
-                          </a>
+                          </a> */}
                           <a
                             onClick={logout}
                             className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
@@ -162,6 +179,8 @@ export default function Navbar() {
                           </a>
                         </div>
                       </div>
+                      ) : (null)}
+                      
                     </div>
                   </div>
                 </div>

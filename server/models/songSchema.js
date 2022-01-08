@@ -7,7 +7,12 @@ const songSchema = mongoose.Schema({
    selectedFile: String,
    source: String,
    songURL: String,
+   description: String,
    likes: {
+      type: [String],
+      default: [],
+   },
+   comments: {
       type: [String],
       default: [],
    },
