@@ -59,66 +59,6 @@ export default function Auth() {
   };
   return (
     <div>
-      {/* <h2>{isSignup ? "Sign Up" : "SignIn"}</h2>
-      <form onSubmit={handleSubmit}>
-        {isSignup && (
-          <>
-            <Input
-              name={"firstName"}
-              label={"First Name"}
-              type={"text"}
-              handleChange={handleChange}
-              autoFocus={true}
-            />
-          </>
-        )}
-        <Input
-          name={"email"}
-          label={"Email Adress"}
-          type={"email"}
-          handleChange={handleChange}
-        />
-        <Input
-          name={"password"}
-          label={"Password"}
-          type={"password"}
-          handleChange={handleChange}
-        />
-        {isSignup && (
-          <Input
-            name={"confirmPassword"}
-            label={"Repeat Password"}
-            type={"password"}
-            handleChange={handleChange}
-          />
-        )}
-        <div className="flex items-center justify-between gap-6">
-          <button type="submit">{isSignup ? "Sign Up" : "Sign IN"}</button>
-          <GoogleLogin
-            clientId="683122469494-s7be2lc3jn64kj5ofmsnhndl6saj351v.apps.googleusercontent.com"
-            render={(renderProps) => (
-              <button
-                onClick={renderProps.onClick}
-                disabled={renderProps.disabled}
-                startIcon={<Icon />}
-              >
-                Google sign in
-              </button>
-            )}
-            onSuccess={googleSuccess}
-            onFailure={googleFailure}
-            cookiePolicy="single_host_origin"
-          />
-        </div>
-
-        <div className="flex items-center justify-between">
-          <button onClick={(e) => switchMode(e)}>
-            {isSignup
-              ? "Already have an account? Sign In"
-              : "dont have an account? Sign up!"}
-          </button>
-        </div>
-      </form> */}
 
       <div className="mt-8 mx-auto flex flex-col w-full max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
         <div className="self-center mb-6 text-xl font-light text-gray-600 sm:text-2xl dark:text-white">

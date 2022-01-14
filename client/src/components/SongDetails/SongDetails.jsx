@@ -35,21 +35,17 @@ export default function SongDetails() {
     <Loading />
   ) : (
     <>
-    <Player thisSong={song} />
-      <div className="grid grid-cols-5 w-full">
-        <div className="col-span-2">
-          <div>DESCRIPTION</div>
-        </div>
-        <div className="col-span-3">
-        </div>
+      <Player thisSong={song} />
+
+      <div className=" rounded-lg bg-white py-8 mt-4 shadow-lg px-12 md:px-36">
+        <div className="mb-2 font-bold">Description:</div>
+        <div>{song.description}</div>
       </div>
-      <div className="flex items-center justify-center ">
-        <div className="w-3/4 md:w-2/3">
-        <CommentSection thisSong={song}/>
-        </div>
+      <div className=" rounded-lg bg-white py-8 mt-4 shadow-lg px-12 md:px-36">
+        <CommentSection thisSong={song} />
       </div>
-      
-      {recommendedSongs.length && (
+
+      {recommendedSongs.length ? (
         <div className="bg-slate-100">
           <div className="flex items-center justify-center font-bold mt-36">
             Other Songs:
@@ -72,7 +68,9 @@ export default function SongDetails() {
                     </div>
                     <div class="w-2/3 p-4">
                       <h1 class="text-gray-900 font-bold text-2xl">{title}</h1>
-                      <p class="mt-2 text-gray-600 text-sm">{description ? (description):("no description")}</p>
+                      <p class="mt-2 text-gray-600 text-sm">
+                        {description ? description : "no description"}
+                      </p>
                       <div class="flex item-center mt-2">
                         <svg
                           class="w-5 h-5 fill-current text-gray-700"
@@ -94,6 +92,10 @@ export default function SongDetails() {
               )
             )}
           </div>
+        </div>
+      ) : (
+        <div className=" rounded-lg bg-white py-8 mt-4 shadow-lg px-12 md:px-36">
+          There is no similar songs
         </div>
       )}
     </>

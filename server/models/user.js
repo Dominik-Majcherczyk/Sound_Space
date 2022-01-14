@@ -5,6 +5,7 @@ name: {type: String, require: true},
 email: {type: String, require: true},
 password: {type: String, require: true},
 id: {type: String},
+selectedFile: String,
 });
 
 export default mongoose.model("User", userSchema);

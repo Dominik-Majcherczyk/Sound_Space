@@ -20,6 +20,8 @@ export const likeSong = (id) =>  API.patch(`/songs/${id}/likeSong`);
 export const comment = (value, id) =>  API.post(`/songs/${id}/commentSong`, {value});
 export const sendFile = (file) => API.post('/songs/s3', file);
 
+export const fetchUser = (id) => API.get(`/user/${id}`, id);
 export const signIn = (formData) => API.post('/user/signin', formData);
 export const signUp = (formData) => API.post('/user/signup', formData);
+
 

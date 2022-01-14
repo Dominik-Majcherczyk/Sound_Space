@@ -100,12 +100,12 @@ export default function AddSongForm({ currentId, setCurrentId }) {
 
   return (
     <div>
-      <div className="mx-auto mt-8 flex flex-col max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
+      <div className="mx-auto mt-8 flex flex-col max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 px-2">
         <div className="self-center mb-2 text-xl font-light text-gray-800 sm:text-2xl dark:text-white">
           {currentId ? "Edit your song" : "Add new fantastic song!"}
         </div>
 
-        <div className="p-6">
+        <div className="">
           <form autoComplete="off" noValidate onSubmit={handleSubmit}>
             <div className="flex flex-col mb-2">
               <div className=" relative ">

@@ -8,9 +8,7 @@ import {
   faVolumeDown,
 } from "@fortawesome/free-solid-svg-icons";
 
-const Player = ({
-    thisSong
-}) => {
+const Player = ({ thisSong }) => {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeVolume, setActiveVolume] = useState(false);
@@ -20,7 +18,6 @@ const Player = ({
     animationPercentage: 0,
     volume: 0,
   });
-
 
   const timeUpdateHandler = (e) => {
     const current = e.target.currentTime;
@@ -38,8 +35,7 @@ const Player = ({
     });
   };
 
-
- const playAudio = (isPlaying, audioRef) => {
+  const playAudio = (isPlaying, audioRef) => {
     if (isPlaying) {
       const playPromise = audioRef.current.play();
       if (playPromise !== undefined) {
@@ -51,16 +47,12 @@ const Player = ({
       }
     }
   };
-  
-
 
   const songEndHandler = async () => {
-   
     playAudio(isPlaying, audioRef);
     return;
   };
   //UseEffect Update List
-
 
   const trackAnim = {
     transform: `translateX(${songInfo.animationPercentage}%)`,
@@ -86,8 +78,6 @@ const Player = ({
     }
   };
 
-
-
   const changeVolume = (e) => {
     let value = e.target.value;
     audioRef.current.volume = value;
@@ -95,75 +85,75 @@ const Player = ({
   };
 
   return (
-    <div  className=" rounded-lg bg-white py-8 mt-4 shadow-lg">
-    <div className="song-container  mt-8   flex justify-center items-center p-4 flex-col">
-    <div className="player-img-container mb-4  ">
-    <img
-      className={isPlaying ? "rotateSong rounded-full player-img" : "rounded-full player-img"}
-      src={thisSong.selectedFile}
-      alt=""
-    />
-    </div>
-
-    <h2 className="font-bold">{thisSong.title}</h2>
-    <h3 className="font-bold">{thisSong.author}</h3>
-  </div>
-    <div className="player">
-      <div className="time-control">
-        <p>{getTime(songInfo.currentTime)}</p>
-        <div
-          style={{
-            background: `linear-gradient(to right, {#b308b3}, {#2b8fd1}})`,
-          }}
-          className="track"
-        >
-          <input
-            value={songInfo.currentTime}
-            type="range"
-            max={songInfo.duration || 0}
-            min={0}
-            onChange={dragHandler}
+    <div className=" rounded-lg bg-white py-8 mt-4 shadow-lg">
+      <div className="song-container  mt-8   flex justify-center items-center p-4 flex-col">
+        <div className="player-img-container mb-4  ">
+          <img
+            className={
+              isPlaying
+                ? "rotateSong rounded-full player-img"
+                : "rounded-full player-img"
+            }
+            src={thisSong.selectedFile}
+            alt=""
           />
-          <div style={trackAnim} className="animate-track"></div>
-        </div>
-        <p>{songInfo.duration ? getTime(songInfo.duration) : "0:00"}</p>
-      </div>
-      <div className="play-control flex flex-col items-center justify-between gap-8 px-16">
-
-        <FontAwesomeIcon
-          onClick={playSongHandler}
-          className="play"
-          size="2x"
-          icon={isPlaying ? faPause : faPlay}
-        />
-        <div className="flex">
-        <FontAwesomeIcon
-          onClick={() => setActiveVolume(!activeVolume)}
-          icon={faVolumeDown}
-        />
-        {activeVolume && (
-          <input
-            onChange={changeVolume}
-            value={songInfo.volume}
-            className="volume-range"
-            max="1"
-            min="0"
-            step="0.01"
-            type="range"
-          />
-        )}
         </div>
 
-        
+        <h2 className="font-bold">{thisSong.title}</h2>
+        <h3 className="font-bold">{thisSong.author}</h3>
       </div>
-    </div>
-    <audio
+      <div className="player">
+        <div className="time-control">
+          <p>{getTime(songInfo.currentTime)}</p>
+          <div
+            style={{
+              background: `linear-gradient(to right, {#b308b3}, {#2b8fd1}})`,
+            }}
+            className="track"
+          >
+            <input
+              value={songInfo.currentTime}
+              type="range"
+              max={songInfo.duration || 0}
+              min={0}
+              onChange={dragHandler}
+            />
+            <div style={trackAnim} className="animate-track"></div>
+          </div>
+          <p>{songInfo.duration ? getTime(songInfo.duration) : "0:00"}</p>
+        </div>
+        <div className="play-control flex flex-col items-center justify-between gap-8 px-16">
+          <FontAwesomeIcon
+            onClick={playSongHandler}
+            className="play"
+            size="2x"
+            icon={isPlaying ? faPause : faPlay}
+          />
+          <div className="flex">
+            <FontAwesomeIcon
+              onClick={() => setActiveVolume(!activeVolume)}
+              icon={faVolumeDown}
+            />
+            {activeVolume && (
+              <input
+                onChange={changeVolume}
+                value={songInfo.volume}
+                className="volume-range rounded-full bg-gray-300 ml-4"
+                max="1"
+                min="0"
+                step="0.01"
+                type="range"
+              />
+            )}
+          </div>
+        </div>
+      </div>
+      <audio
         onLoadedMetadata={timeUpdateHandler}
         onTimeUpdate={timeUpdateHandler}
         ref={audioRef}
         src={thisSong.songURL}
         onEnded={songEndHandler}
-       
       ></audio>
     </div>
   );

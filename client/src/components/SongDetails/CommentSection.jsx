@@ -17,11 +17,9 @@ export default function CommentSection({ thisSong }) {
   };
   return (
     <div>
-      <h1>comments</h1>
-      <div>{thisSong?.comments && comments.map((comment, i) => (<div key={i}>{comment}</div>))}</div>
-     {user?.result?.name && (
+       {user?.result?.name && (
       <div>
-        <h1>write a comment</h1>
+        <h1 className="font-bold">write a comment</h1>
         <textarea
           class="flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
           id="comment"
@@ -43,6 +41,13 @@ export default function CommentSection({ thisSong }) {
         </button>
       </div>
      )}
+      <h1 className="font-bold mt-8 mb-2">Comments: </h1>
+      <div className="flex flex-col gap-2 comments-section">
+        
+        {thisSong?.comments && comments.map((comment, i) => (<div key={i} className="bg-indigo-100 p-6 rounded-lg">{comment}</div>))}
+        
+        </div>
+    
         
   
       

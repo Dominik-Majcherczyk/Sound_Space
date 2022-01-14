@@ -1,31 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { AppBar} from "@material-ui/core";
-import { useNavigate} from "react-router-dom";
+import { AppBar } from "@material-ui/core";
+import { useNavigate } from "react-router-dom";
 import logo from "../../images/soundspace-logo.png";
 import userProfile from "../../images/user-profile.png";
-import {ReactComponent as Svg1} from '../../svg/svg1.svg';
-import {ReactComponent as Svg2} from '../../svg/svg2.svg';
-import {ReactComponent as Svg3} from '../../svg/svg2.svg';
+import { ReactComponent as Svg1 } from "../../svg/svg1.svg";
+import { ReactComponent as Svg2 } from "../../svg/svg2.svg";
+import { ReactComponent as Svg3 } from "../../svg/svg2.svg";
 
-import decode from "jwt-decode"
-export default function Navbar() {
+import decode from "jwt-decode";
+export default function Navbar({ favFilter, setFavFilter }) {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
-  const [menuActive, setMenuActive] = useState(false)
+  console.log(user);
+  const [menuActive, setMenuActive] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const toggleMenu = () =>{
-    setMenuActive(!menuActive)
-  }
+  const toggleFavs = () => {
+    setFavFilter(!favFilter);
+  };
+  const toggleMenu = () => {
+    setMenuActive(!menuActive);
+  };
   const logout = () => {
     dispatch({ type: "LOGOUT" });
-    navigate('/')
+    navigate("/");
     setUser(null);
-    toggleMenu()
+    toggleMenu();
   };
-  
+
   useEffect(() => {
     const token = user?.token;
 
@@ -72,37 +75,23 @@ export default function Navbar() {
                       Home
                     </a>
                     <a
-                      className="text-gray-800 dark:text-white  hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-md font-medium"
-                      href="/#"
-                    >
-                      Add song
-                    </a>
-                    <a
                       className="text-gray-300  hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-md font-medium"
                       href="/#"
+                      onClick={toggleFavs}
                     >
-                      Playlists
+                      Favourites
                     </a>
-                 
+                    {user ? (
+                      <a
+                        className="text-gray-300  hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-md font-medium"
+                        href={`/profile/${user.result._id}`}
+                      >
+                        Profile
+                      </a>
+                    ) : null}
                   </div>
                 </div>
               </div>
-
-              {/* <div className="relative flex items-center w-80 lg:w-64 h-full group">
-                <div className="absolute z-50 flex items-center justify-center block w-auto h-10 p-3 pr-2 text-sm text-gray-500 uppercase cursor-pointer sm:hidden">
-
-                   <Svg1/>
-                </div>
-                    <Svg2/>
-                <input
-                  type="text"
-                  className="block w-full py-1.5 pl-10 pr-4 leading-normal rounded-2xl focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 ring-opacity-90 bg-gray-100 dark:bg-gray-800 text-gray-400 aa-input"
-                  placeholder="Search"
-                />
-                <div className="absolute right-0 hidden h-auto px-2 py-1 mr-2 text-xs text-gray-400 border border-gray-300 rounded-2xl md:block">
-                  +
-                </div>
-              </div> */}
 
               <div className="block">
                 <div className="ml-4 flex items-center md:ml-6">
@@ -118,22 +107,19 @@ export default function Navbar() {
                               onClick={toggleMenu}
                             >
                               <div className="h-8 w-8">
-                                {
-                                  user.result.imageUrl? (  
+                                {user.result.imageUrl ? (
                                   <img
                                     className="rounded-full "
                                     alt={user?.result.name}
                                     src={user?.result.imageUrl}
                                   />
-                                  ):(
-                                    <img
+                                ) : (
+                                  <img
                                     className="rounded-full "
                                     alt={user?.result.name}
                                     src={userProfile}
                                   />
-                                    )
-                                }
-                              
+                                )}
                               </div>
                             </button>
                             <p>{user?.result.name}</p>
@@ -143,14 +129,14 @@ export default function Navbar() {
                         )}
                       </div>
                       {menuActive ? (
-                      <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
-                        <div
-                          className="py-1 "
-                          role="menu"
-                          aria-orientation="vertical"
-                          aria-labelledby="options-menu"
-                        >
-                          {/* <a
+                        <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
+                          <div
+                            className="py-1 "
+                            role="menu"
+                            aria-orientation="vertical"
+                            aria-labelledby="options-menu"
+                          >
+                            {/* <a
                             href="#"
                             className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
                             role="menuitem"
@@ -168,26 +154,25 @@ export default function Navbar() {
                               <span>Account</span>
                             </span>
                           </a> */}
-                          <a
-                            onClick={logout}
-                            className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
-                            role="menuitem"
-                          >
-                            <span className="flex flex-col">
-                              <span>Logout</span>
-                            </span>
-                          </a>
+                            <a
+                              onClick={logout}
+                              className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
+                              role="menuitem"
+                            >
+                              <span className="flex flex-col">
+                                <span>Logout</span>
+                              </span>
+                            </a>
+                          </div>
                         </div>
-                      </div>
-                      ) : (null)}
-                      
+                      ) : null}
                     </div>
                   </div>
                 </div>
               </div>
               <div className="-mr-2 flex lg:hidden">
                 <button className="text-gray-800 dark:text-white hover:text-gray-300 inline-flex items-center justify-center p-2 rounded-md focus:outline-none">
-                <Svg3/>
+                  <Svg3 />
                 </button>
               </div>
             </div>
