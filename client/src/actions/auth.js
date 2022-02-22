@@ -1,4 +1,4 @@
-import {AUTH, FETCH_USER} from '../constans/actionTypes.js'
+import {AUTH, FETCH_USER, SET_ERROR} from '../constans/actionTypes.js'
 import * as api from "../api/index.js";
 
 //action Creators
@@ -37,7 +37,9 @@ export const signup = (formData, navigate) => async (dispatch) => {
         dispatch({type: AUTH, data})
 
         navigate('/');
-    } catch (error) {
-        console.log(error);
+        console.log(data)
+    } catch (err) {
+        dispatch({type: SET_ERROR, payload: err.response.data.errors })
+     
     }
 }

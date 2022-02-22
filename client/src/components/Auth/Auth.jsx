@@ -1,10 +1,12 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 // import Icon from "./icon";
 import { GoogleLogin } from "react-google-login";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {signin, signup} from "../../actions/auth"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const initialState = {
   firstName: '',
   lastName: '',
@@ -19,8 +21,13 @@ export default function Auth() {
   const [formData, setFormData] = useState(initialState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-
+  const { errors } = useSelector((state) => state.auth);
+console.log(errors)
+useEffect(()=>{
+  errors.forEach((error)=>{
+    toast.error(error.msg)
+  })
+},[errors])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -59,7 +66,7 @@ export default function Auth() {
   };
   return (
     <div>
-
+<ToastContainer />
       <div className="mt-8 mx-auto flex flex-col w-full max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
         <div className="self-center mb-6 text-xl font-light text-gray-600 sm:text-2xl dark:text-white">
           {isSignup ? "Make a new account" : "Log in to your account"}

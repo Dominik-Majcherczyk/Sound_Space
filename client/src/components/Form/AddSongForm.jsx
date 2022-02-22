@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addSong, updateSong } from "../../actions/songs";
 import { Upload } from "@aws-sdk/lib-storage";
 import { S3Client, S3 } from "@aws-sdk/client-s3";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 export default function AddSongForm({ currentId, setCurrentId }) {
   const navigate = useNavigate();
   const [songData, setSongData] = useState({
@@ -25,25 +25,32 @@ export default function AddSongForm({ currentId, setCurrentId }) {
   const dispatch = useDispatch();
 
   const user = JSON.parse(localStorage.getItem("profile"));
-
+  let path = null;
+  const setPath = () => {
+    if (user.result._id) {
+      return `${user.result._id}/${soundFile.name}`;
+    }
+    return `${user.result.googleId}/${soundFile.name}`;
+  };
   useEffect(() => {
     if (song) setSongData(song);
   }, [song]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(songData);
+    console.log(user);
     if (currentId) {
       dispatch(
         updateSong(currentId, { ...songData, author: user?.result?.name })
       );
     } else {
+      path = setPath();
       const target = {
         Bucket: "sound-space10122021",
-        Key: soundFile.name,
+        Key: path,
         Body: soundFile,
       };
-
+      console.log(user);
       const creds = {
         accessKeyId: "AKIAYMK6CF6HX2QEOUBY",
         secretAccessKey: "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",
@@ -65,11 +72,14 @@ export default function AddSongForm({ currentId, setCurrentId }) {
       }
 
       dispatch(
-        addSong({
-          ...songData,
-          author: user?.result?.name,
-          songURL: `${bucketUrl}${soundFile.name}`,
-        }, navigate)
+        addSong(
+          {
+            ...songData,
+            author: user?.result?.name,
+            songURL: `${bucketUrl}${path}`,
+          },
+          navigate
+        )
       );
     }
     clear();
@@ -144,7 +154,6 @@ export default function AddSongForm({ currentId, setCurrentId }) {
                 <label class="text-gray-700" for="name">
                   <textarea
                     class="flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                    
                     placeholder="Description"
                     name="description"
                     rows="5"

@@ -4,6 +4,7 @@ import Loading from "../Loading";
 import { useParams, useNavigate } from "react-router-dom";
 import { getSong, getSongsBySearch } from "../../actions/songs";
 import Player from "./Player";
+import TextTruncate from "react-text-truncate";
 import CommentSection from "./CommentSection";
 
 export default function SongDetails() {
@@ -69,7 +70,15 @@ export default function SongDetails() {
                     <div class="w-2/3 p-4">
                       <h1 class="text-gray-900 font-bold text-2xl">{title}</h1>
                       <p class="mt-2 text-gray-600 text-sm">
-                        {description ? description : "no description"}
+
+                      <TextTruncate
+              line={2}
+              element="p"
+              truncateText="…"
+              text={description ? description : "no description"}
+            />
+
+                        
                       </p>
                       <div class="flex item-center mt-2">
                         <svg

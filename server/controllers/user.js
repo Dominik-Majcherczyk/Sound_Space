@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
-
+import { check, body, validationResult } from "express-validator";
 export const getUser = async (req, res) => {
   const { id } = req.params;
 
@@ -33,22 +33,26 @@ export const signin = async (req, res) => {
       "test",
       { expiresIn: "1h" }
     );
-    res.status(200).json({ result: existingUser, token });
+    return res.status(200).json({ result: existingUser, token });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong." });
   }
 };
 
-export const signup = async (req, res) => {
+export const signup = async ( req, res,  ) => {
   const { email, password, confirmPassword, firstName, lastName } = req.body;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()){
+    return res.status(422).json({errors: errors.array()})
+  }
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser)
-      return res.status(404).json({ message: "User already exist" });
+       return res.status(400).json({ error: "User already exist" });
 
     if (password !== confirmPassword)
-      return res.status(404).json({ message: "Password dont match." });
-
+      return res.status(400).json({ error: "Password dont match." });
+    
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const result = await User.create({
@@ -61,8 +65,8 @@ export const signup = async (req, res) => {
       expiresIn: "1h",
     });
 
-    res.status(200).json({ result, token });
+    return res.status(200).json({ result, token });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong." });
+    return  res.status(500).json({ message: "Something went wrong." });
   }
 };
