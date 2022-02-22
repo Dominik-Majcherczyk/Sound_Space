@@ -3,7 +3,7 @@ import moment from "moment";
 import { useDispatch } from "react-redux";
 import { deleteSong, likeSong } from "../../actions/songs";
 import { useNavigate } from "react-router-dom";
-import TextTruncate from "react-text-truncate"; // recommend
+import TextTruncate from "react-text-truncate";
 export default function Song({ song, setCurrentId, uniqueKey }) {
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
